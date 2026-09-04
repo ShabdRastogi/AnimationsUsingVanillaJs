@@ -157,29 +157,29 @@ if(ctx){
 //ANIMATIONS 
     //Bounce
 
-let x = 50;
-let y = 50;
-let speedX = 2;
-let speedY =2;
+// let x = 50;
+// let y = 50;
+// let speedX = 2;
+// let speedY =2;
 
 
-function animate(){
-  ctx.clearRect(0,0,canvas.clientWidth,canvas.height)
-  ctx.fillStyle = 'green';
-  ctx.fillRect(x,y,70,50)
-  if(x+70>=canvas.width || x<0){
-    speedX = -speedX;
-  }
-  if(y<=0 || y+50>= canvas.height){
-    speedY = -speedY;
-  }
+// function animate(){
+//   ctx.clearRect(0,0,canvas.clientWidth,canvas.height)
+//   ctx.fillStyle = 'green';
+//   ctx.fillRect(x,y,70,50)
+//   if(x+70>=canvas.width || x<0){
+//     speedX = -speedX;
+//   }
+//   if(y<=0 || y+50>= canvas.height){
+//     speedY = -speedY;
+//   }
 
-  x+=speedX;
-  y+=speedY;
-  requestAnimationFrame(animate);
-}
+//   x+=speedX;
+//   y+=speedY;
+//   requestAnimationFrame(animate);
+// }
 
-animate();
+// animate();
 
 
 // let x = 60;
@@ -245,3 +245,55 @@ animate();
 // }
 
 // transform()
+
+
+//HANDLING USER INPUTS 
+
+// EVENT LISTENER (click, mousemove, )
+
+
+// canvas.addEventListener("click",(event)=>{
+//   console.log("User clicked!")
+//   const x = event.offsetX;
+//   const y = event.offsetY;
+//   console.log(`clicked x = ${x} and y = ${y}.`) 
+// })
+
+// canvas.addEventListener("mousemove",(event)=>{
+//   const x = event.offsetX;
+//   const y = event.offsetY;
+
+//   ctx.clearRect(0,0,canvas.clientWidth,canvas.height)
+//   ctx.beginPath();
+//   ctx.fillStyle = 'red';
+//   ctx.arc(x,y,10,0,Math.PI *2)
+//   ctx.fill();
+// })
+
+let x = 100;
+let y = 100;
+const radius =30;
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height)
+
+  ctx.beginPath();
+  
+  ctx.arc(x,y,radius,0,Math.PI*2);
+  ctx.fillStyle = 'blue';
+  ctx.fill();
+
+}
+document.addEventListener('keydown',(event)=>{
+    const speed = 10;
+    switch(event.key){
+      case 'ArrowUp' : if(y-radius>0){y-=speed}; break;
+      case 'ArrowDown' : if(y+radius<canvas.height){y+=speed}; break;
+      case 'ArrowRight' : if(x+radius<canvas.width){x+=speed}; break;
+      case 'ArrowLeft' : if(x-radius>0){x-=speed}; break;
+
+    }
+    draw();
+  })
+
+draw();
