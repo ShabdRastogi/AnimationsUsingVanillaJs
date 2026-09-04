@@ -140,16 +140,108 @@ if(ctx){
 // ctx.restore()
 
 //Drawing the Images
-const bg = new Image();
-bg.src = './image/background.jpg'
+// const bg = new Image();
+// bg.src = './image/background.jpg'
 
-bg.onload = ()=> {
-  ctx.drawImage(bg,0,0,canvas.clientWidth,canvas.height);
-  const img = new Image();
-  img.src = './image/character.png';
-  img.onload = ()=> {    //to load the image before running the script
-  ctx.drawImage(img,10,180,80,80)
+// bg.onload = ()=> {
+//   ctx.drawImage(bg,0,0,canvas.clientWidth,canvas.height);
+//   const img = new Image();
+//   img.src = './image/character.png';
+//   img.onload = ()=> {    //to load the image before running the script
+//   ctx.drawImage(img,10,180,80,80)
+//   }
+
+// }
+
+
+//ANIMATIONS 
+    //Bounce
+
+let x = 50;
+let y = 50;
+let speedX = 2;
+let speedY =2;
+
+
+function animate(){
+  ctx.clearRect(0,0,canvas.clientWidth,canvas.height)
+  ctx.fillStyle = 'green';
+  ctx.fillRect(x,y,70,50)
+  if(x+70>=canvas.width || x<0){
+    speedX = -speedX;
+  }
+  if(y<=0 || y+50>= canvas.height){
+    speedY = -speedY;
   }
 
+  x+=speedX;
+  y+=speedY;
+  requestAnimationFrame(animate);
 }
 
+animate();
+
+
+// let x = 60;
+// let y = 70;
+// let speedX = 1;
+// let speedY = -1;
+
+// function ballBounce(){
+//   ctx.clearRect(0,0,canvas.clientWidth,canvas.height);
+//   ctx.beginPath();
+//   ctx.arc(x,y,40,0,Math.PI *2);
+//   ctx.fillStyle = 'purple';
+//   ctx.fill();
+//   ctx.closePath();
+
+//   if(x+40 >= canvas.width || x-40<= 0 ){
+//     speedX = -speedX;
+//   }
+//   if(y-40<=0 || y+40 >=canvas.height){
+//     speedY = -speedY;
+//   }
+
+//   x += speedX;
+//   y += speedY;
+//   requestAnimationFrame(ballBounce);
+// }
+
+// ballBounce()
+
+    //TRANSFORM
+
+
+// let angle = 0;
+// let grow = true;
+// let scale = 1
+// function transform(){
+//   ctx.clearRect(0,0,canvas.clientWidth,canvas.height);
+
+//   ctx.save();
+//   ctx.translate(canvas.clientWidth/2,canvas.height/2);//anchor point centered
+//   ctx.rotate(angle);
+//   ctx.scale(scale,scale)
+//   ctx.fillStyle = 'green'
+//   ctx.fillRect(-50,-50,100,100)
+  
+//   ctx.restore();
+//   angle+=0.05
+//   if (grow) {
+//     scale += 0.02;
+//     if (scale >= 1.5) {
+//       grow = false;
+//     }
+//   } else {
+//     scale -= 0.02;
+//     if (scale <= 0.5) {
+//       grow = true;
+//     }
+//   }
+  
+
+//   requestAnimationFrame(transform)
+
+// }
+
+// transform()
