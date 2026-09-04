@@ -113,7 +113,43 @@ if(ctx){
 
 //TEXTS
 
-ctx.font = '50px Arial';
+// ctx.font = '50px Arial';
 
-ctx.fillText("Hello World" , 70 , 150)
-ctx.strokeText("Hello World",70,250)
+// ctx.fillText("Hello World" , 70 , 150)
+// ctx.strokeText("Hello World",70,250)
+
+// ctx.moveTo(0,canvas.height/2)
+// ctx.lineTo(canvas.width,canvas.height/2)
+// ctx.moveTo(canvas.width/2,0)
+// ctx.lineTo(canvas.width/2,canvas.height)
+
+
+// ctx.stroke()
+// ctx.save()
+// ctx.textAlign = 'center';  // used to change the anchor point to center HORIZONTALLY
+// ctx.textBaseline = 'middle';//used to center the anchor point VERTICALLY
+
+// ctx.font = '50px Arial'
+// ctx.shadowColor = 'blue'
+// ctx.shadowOffsetX = 0
+// ctx.shadowOffsetY = 0
+// ctx.shadowBlur = 15
+// ctx.fillText("Hello", canvas.width/2 ,canvas.width/2)
+// ctx.fill()
+
+// ctx.restore()
+
+//Drawing the Images
+const bg = new Image();
+bg.src = './image/background.jpg'
+
+bg.onload = ()=> {
+  ctx.drawImage(bg,0,0,canvas.clientWidth,canvas.height);
+  const img = new Image();
+  img.src = './image/character.png';
+  img.onload = ()=> {    //to load the image before running the script
+  ctx.drawImage(img,10,180,80,80)
+  }
+
+}
+
