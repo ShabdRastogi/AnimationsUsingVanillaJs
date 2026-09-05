@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AmongUs-shooting-game</title>
+  <link rel="icon" type="image/png" href="./image/logo.jpg">
   <style>
     body{
       margin:0;
@@ -12,8 +14,6 @@
 
     #board{
       border:2px solid;
-      margin-left:28%;
-      margin-top:25px;
       background-image: url('./image/background.png');
       background-position: center;
       background-size: cover;
@@ -33,13 +33,50 @@
     button:hover{
       background:#ddd;
     }
+    .game{
+      position:relative;
+      width:fit-content;
+      margin:25px auto;
+    }
+    #hitPopup{
+      position:absolute;
+      color:#00ffff;
+      font:bold 25px Arial;
+      text-shadow:0 0 10px #00ffff;
+      pointer-events:none;
+      opacity:0;
+    }
+
+    #hitPopup.show{
+      animation:popup .7s ease-out;
+    }
+
+    @keyframes popup{
+      0%{
+        opacity:0;
+        transform:translate(-50%,0) scale(.5);
+      }
+
+      20%{
+        opacity:1;
+        transform:translate(-50%,-10px) scale(1.2);
+      }
+
+      100%{
+        opacity:0;
+        transform:translate(-50%,-50px) scale(.8);
+      }
+    }
   </style>
   <title>Amongus-Shooting</title>
 </head>
 
 <body>
   <button onclick="window.location.href='./index.html'">Back to Games</button>
-  <canvas id="board"></canvas>
+  <div class="game">
+    <canvas id="board"></canvas>
+    <div id="hitPopup">+1</div>
+  </div>
 
   <script>
 
@@ -227,6 +264,7 @@
 
             bullets.splice(i,1);
             score++;
+            showHitPopup(target.x + target.width/2,target.y);
             target.x = randomX();
             target.y = randomY();
             i--;
@@ -294,6 +332,16 @@
 
         timer = setInterval(updateTimer,1000);
       }
+    }
+    function showHitPopup(x,y){
+      let popup = document.getElementById("hitPopup");
+
+      popup.style.left = x + "px";
+      popup.style.top = y + "px";
+
+      popup.classList.remove("show");
+      void popup.offsetWidth;
+      popup.classList.add("show");
     }
 
   </script>
