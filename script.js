@@ -270,30 +270,31 @@ if(ctx){
 //   ctx.fill();
 // })
 
-let x = 100;
-let y = 100;
-const radius =30;
+// let x = 100;
+// let y = 100;
+// const radius =30;
 
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height)
+// function draw(){
+//   ctx.clearRect(0,0,canvas.width,canvas.height)
 
-  ctx.beginPath();
+//   ctx.beginPath();
   
-  ctx.arc(x,y,radius,0,Math.PI*2);
-  ctx.fillStyle = 'blue';
-  ctx.fill();
+//   ctx.arc(x,y,radius,0,Math.PI*2);
+//   ctx.fillStyle = 'blue';
+//   ctx.fill();
 
-}
-document.addEventListener('keydown',(event)=>{
-    const speed = 10;
-    switch(event.key){
-      case 'ArrowUp' : if(y-radius>0){y-=speed}; break;
-      case 'ArrowDown' : if(y+radius<canvas.height){y+=speed}; break;
-      case 'ArrowRight' : if(x+radius<canvas.width){x+=speed}; break;
-      case 'ArrowLeft' : if(x-radius>0){x-=speed}; break;
+// }
+// document.addEventListener('keydown',(event)=>{
+//     const speed = 10;
+//     switch(event.key){
+//       case 'ArrowUp' : if(y-radius>0){y-=speed}; break;
+//       case 'ArrowDown' : if(y+radius<canvas.height){y+=speed}; break;
+//       case 'ArrowRight' : if(x+radius<canvas.width){x+=speed}; break;
+//       case 'ArrowLeft' : if(x-radius>0){x-=speed}; break;
 
-    }
-    draw();
-  })
+//     }
+//     draw();
+//   })
 
-draw();
+// draw();
+
