@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AmongUs-shooting-game</title>
-  <link rel="icon" type="image/png" href="./image/logo.jpg">
+  <link rel="icon" type="image/jpeg" href="./image/logo.jpg">
   <style>
     body{
       margin:0;
@@ -91,7 +91,17 @@
     let charX = boardWidth/8;
     let charY = boardHeight/2;
     let charImg;
-    let velocityY = 8;
+    let velocityY = 2;
+    let moving = false;
+
+    //Sprite sheet
+    let currentFrame = 0;
+    let frameCount = 4;
+    let frameWidth = 543;
+    let frameHeight = 724;
+    let frameTimer = 0;
+    let upPressed = false;
+    let downPressed = false;
 
     //Character object
     let character = {
@@ -122,6 +132,13 @@
     let gameOver = false;
     let timer;
 
+    // Sounds
+    let shootSound = new Audio("./sounds/pistol-shot.mp3");
+    let hitSound = new Audio("./sounds/minecrafthit.mp3");
+    let gameOverSound = new Audio("./sounds/mario-gameover.mp3");
+    shootSound.preload = "auto";
+    hitSound.preload = "auto";
+    gameOverSound.preload = "auto";
 
     window.onload = function(){
       board = document.getElementById("board");
@@ -130,7 +147,7 @@
       context = board.getContext("2d");
 
       charImg = new Image();
-      charImg.src = "./image/character.png";
+      charImg.src = "./image/characterSprite.png";
 
       enemyImg.src = "./image/imposter.png";
       createEnemies();
@@ -140,9 +157,28 @@
       requestAnimationFrame(update);
 
       //key trackers
-      document.addEventListener("keydown",moveChar);
-      document.addEventListener("keydown",shoot);
-      document.addEventListener("keydown",restartGame);
+      document.addEventListener("keydown", (e) => {
+          if (e.code === "ArrowUp" || e.code === "KeyW") {
+              upPressed = true;
+          }
+
+          if (e.code === "ArrowDown" || e.code === "KeyS") {
+              downPressed = true;
+          }
+
+          shoot(e);
+          restartGame(e);
+      });
+
+      document.addEventListener("keyup", (e) => {
+          if (e.code === "ArrowUp" || e.code === "KeyW") {
+              upPressed = false;
+          }
+
+          if (e.code === "ArrowDown" || e.code === "KeyS") {
+              downPressed = false;
+          }
+      });
     };
 
 
@@ -156,6 +192,31 @@
         return;
       }
 
+      if(upPressed && character.y > 0){
+          character.y -= velocityY;
+          moving = true;
+      }
+
+      if(downPressed && character.y + character.height < boardHeight){
+          character.y += velocityY;
+          moving = true;
+      }
+
+      if(moving){
+        frameTimer++;
+        if(frameTimer >= 38){
+          currentFrame++;
+          frameTimer = 0;
+          if(currentFrame >= frameCount){
+            currentFrame = 0;
+          }
+        }
+      }
+      else{
+          currentFrame = 0;
+          frameTimer = 0;
+      }
+      moving = false;
       drawCharacter();
       drawEnemies();
       drawBullets();
@@ -166,7 +227,7 @@
 
     //character image
     function drawCharacter(){
-      context.drawImage(charImg,character.x,character.y,character.width,character.height);
+      context.drawImage(charImg,currentFrame * frameWidth,0,frameWidth,frameHeight,character.x,character.y,character.width,character.height);
     }
 
 
@@ -226,6 +287,10 @@
             width:bulletWidth,
             height:bulletHeight
           });
+
+          shootSound.currentTime = 0;
+          shootSound.play();
+
           lastShot = currentTime;
         }
       }
@@ -263,6 +328,8 @@
           ){
 
             bullets.splice(i,1);
+            hitSound.currentTime = 0;
+            hitSound.play();
             score++;
             showHitPopup(target.x + target.width/2,target.y);
             target.x = randomX();
@@ -274,24 +341,16 @@
       }
     }
 
-    function moveChar(e){
-      if(gameOver){
-        return;
-      }
-      if((e.code === "ArrowUp" || e.code === "KeyW") && character.y > 0){
-        character.y -= velocityY;
-      }
-      if((e.code === "ArrowDown" || e.code === "KeyS") && character.y + character.height < boardHeight){
-        character.y += velocityY;
-      }
-    }
-
     function updateTimer(){
       if(timeLeft > 0){
         timeLeft--;
       }
-      else{
+      else if(!gameOver){
         gameOver = true;
+
+        gameOverSound.currentTime = 0;
+        gameOverSound.play();
+
         clearInterval(timer);
       }
     }
